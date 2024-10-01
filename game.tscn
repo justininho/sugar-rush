@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://n1k6oc2gahmr"]
+
+[ext_resource type="PackedScene" uid="uid://61cbetqs47by" path="res://level/level.tscn" id="1_vatf5"]
+[ext_resource type="PackedScene" uid="uid://swasdbqxbths" path="res://player/player.tscn" id="2_nd0t2"]
+
+[node name="Game" type="Node2D"]
+physics_interpolation_mode = 1
+position = Vector2(48, 24)
+
+[node name="Level" parent="." instance=ExtResource("1_vatf5")]
+
+[node name="Player" parent="Level" instance=ExtResource("2_nd0t2")]
+position = Vector2(-88, -48)
+scale = Vector2(0.2, 0.2)
