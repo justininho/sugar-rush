@@ -5,10 +5,24 @@
 
 [node name="Game" type="Node2D"]
 physics_interpolation_mode = 1
-position = Vector2(48, 24)
+position = Vector2(-208, 104)
 
 [node name="Level" parent="." instance=ExtResource("1_vatf5")]
+position = Vector2(264, -72)
 
 [node name="Player" parent="Level" instance=ExtResource("2_nd0t2")]
-position = Vector2(-88, -48)
-scale = Vector2(0.2, 0.2)
+position = Vector2(-56, -144)
+scale = Vector2(0.25, 0.25)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Level/Player"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="Level"]
+position = Vector2(-56, -144)
+scale = Vector2(0.25, 0.25)
+zoom = Vector2(1.5, 1.5)
+limit_left = -344
+limit_top = -336
+limit_right = 424
+limit_bottom = 192
+editor_draw_limits = true
