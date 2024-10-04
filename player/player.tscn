@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://t8gkvhmfo1bk" path="res://art/playerGrey_up2.png" id="2_7ut2n"]
 [ext_resource type="Texture2D" uid="uid://cmdqiv6mndjqn" path="res://art/playerGrey_walk1.png" id="3_0tbbe"]
 [ext_resource type="Texture2D" uid="uid://bh0f7kd1ba7t4" path="res://art/playerGrey_walk2.png" id="4_rda80"]
-[ext_resource type="Texture2D" uid="uid://ici8ct08om4r" path="res://art/playerGrey_walljump.png" id="5_hars8"]
+[ext_resource type="Texture2D" uid="uid://c1bh5he1a1ka0" path="res://art/playerGrey_wall.png" id="5_sjm1i"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a27or"]
 animations = [{
@@ -59,7 +59,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_hars8")
+"texture": ExtResource("5_sjm1i")
 }],
 "loop": true,
 "name": &"wall",
