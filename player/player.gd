@@ -110,10 +110,11 @@ func apply_gravity(delta: float) -> void:
 func has_direction() -> bool:
 	return Input.get_axis("move_left", "move_right") != 0
 	
-@onready var wall_raycast = $WallRaycast
+@onready var wall_raycast_right = $WallRaycastRight as RayCast2D
+@onready var wall_raycast_left = $WallRaycastLeft as RayCast2D
 
 func touching_wall() -> bool:
-	return wall_raycast.is_colliding()
+	return wall_raycast_right.is_colliding() or wall_raycast_left.is_colliding()
 		
 func handle_state(delta: float) -> void:
 	match current_state:
