@@ -62,7 +62,7 @@ animations = [{
 "texture": ExtResource("5_sjm1i")
 }],
 "loop": true,
-"name": &"wall",
+"name": &"wall_slide",
 "speed": 5.0
 }]
 
@@ -78,7 +78,18 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a27or")
-animation = &"wall"
+animation = &"wall_slide"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_l3846")
+
+[node name="WallSlideBufferTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+
+[node name="WallRaycast" type="RayCast2D" parent="."]
+target_position = Vector2(112, 0)
+collide_with_areas = true
+
+[connection signal="timeout" from="WallSlideBufferTimer" to="." method="_on_wall_slide_buffer_timer_timeout"]
