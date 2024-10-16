@@ -1,44 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://n1k6oc2gahmr"]
+[gd_scene load_steps=3 format=3 uid="uid://n1k6oc2gahmr"]
 
-[ext_resource type="PackedScene" uid="uid://61cbetqs47by" path="res://level/level.tscn" id="1_vatf5"]
+[ext_resource type="PackedScene" uid="uid://dnjw3n2s78vln" path="res://levels/halloween-level/halloween_level.tscn" id="2_jq0d8"]
 [ext_resource type="PackedScene" uid="uid://swasdbqxbths" path="res://player/player.tscn" id="2_nd0t2"]
-[ext_resource type="Script" path="res://debug_state_label.gd" id="3_y2htw"]
 
 [node name="Game" type="Node2D"]
 physics_interpolation_mode = 1
 position = Vector2(-208, 104)
 
-[node name="Level" parent="." instance=ExtResource("1_vatf5")]
-position = Vector2(264, -80)
+[node name="ForestLevel" parent="." instance=ExtResource("2_jq0d8")]
 
-[node name="Player" parent="Level" instance=ExtResource("2_nd0t2")]
-position = Vector2(-56, -144)
-scale = Vector2(0.25, 0.25)
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Level/Player"]
-remote_path = NodePath("../../Camera2D")
-
-[node name="Camera2D" type="Camera2D" parent="Level"]
-position = Vector2(-56, -144)
-scale = Vector2(0.25, 0.25)
-zoom = Vector2(1.5, 1.5)
-limit_left = -344
-limit_top = -336
-limit_right = 424
-limit_bottom = 192
-editor_draw_limits = true
-
-[node name="DebugHUD" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
-
-[node name="DebugStateLabel" type="Label" parent="DebugHUD"]
-top_level = true
-visibility_layer = 2
-offset_left = -256.0
-offset_top = -40.0
-offset_right = -216.0
-offset_bottom = -17.0
-text = "idle"
-script = ExtResource("3_y2htw")
-
-[connection signal="state_change" from="Level/Player" to="DebugHUD/DebugStateLabel" method="_on_player_state_change"]
+[node name="Player" parent="ForestLevel" instance=ExtResource("2_nd0t2")]
+position = Vector2(-16, -104)
+WALK_SPEED = 200.0
+RUN_SPEED = 300.0

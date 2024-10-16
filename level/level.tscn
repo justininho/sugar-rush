@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://61cbetqs47by"]
-
-[ext_resource type="PackedScene" uid="uid://by2itccpaawcg" path="res://tile_map_layer.tscn" id="1_hb31b"]
-
-[node name="Level" type="Node2D"]
-
-[node name="TileMapLayer" parent="." instance=ExtResource("1_hb31b")]
