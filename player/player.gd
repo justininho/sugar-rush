@@ -4,26 +4,34 @@ extends CharacterBody2D
 
 @export var WALK_SPEED = 200
 @export var RUN_SPEED = 300.0
-@export var ACCELERATION_SPEED = 1800.0
+@export var ACCELERATION_SPEED = 1200.0
 
-@export var JUMP_VELOCITY = -300
-@export var JUMP_HOLD_FORCE = -200.0 # Extra upward force applied when jump is held
+@export var JUMP_VELOCITY = 300
+@export var JUMP_BOOST_FORCE = 200.0 # Extra upward force applied when jump is held
 
 @onready var animated_sprite := $AnimatedSprite2D as AnimatedSprite2D
 @onready var jump_boost_remaining_timer := $JumpBoostRemainingTimer as Timer
 
+var jump_count := 0
+var max_jumps := 2
+
 signal state_change(state_string: String)
 
-enum PlayerState {IDLE, WALKING, RUNNING, JUMPING, FALLING, WALL_SLIDE, WALL_JUMP}
-var current_state := PlayerState.IDLE
+enum PlayerState {IDLE, WALKING, RUNNING, JUMPING, FALL_JUMP, DOUBLE_JUMP, FALLING}
 
-func change_state(new_state: PlayerState):
-	if current_state == new_state:
+var previous_state := PlayerState.IDLE
+var current_state := PlayerState.IDLE :
+	set(state):  
+		if current_state == state:
 			return
-
-	print("Changing state from %s to %s" % [get_player_state_string(current_state), get_player_state_string(new_state)])
-	current_state = new_state
-	state_change.emit(get_player_state_string(current_state))
+		
+		previous_state = current_state
+		current_state = state
+		animated_sprite.play(get_player_state_string(state))
+		state_change.emit(get_player_state_string(state)) 
+		match state:
+			PlayerState.WALKING, PlayerState.RUNNING, PlayerState.IDLE:
+				jump_count = 0
 
 func get_player_state_string(state: PlayerState) -> String:
 	match state:
@@ -35,51 +43,63 @@ func get_player_state_string(state: PlayerState) -> String:
 			return "running"
 		PlayerState.JUMPING:
 			return "jumping"
+		PlayerState.DOUBLE_JUMP:
+			return "double_jumping"
+		PlayerState.FALL_JUMP:
+			return "fall_jumping"
 		PlayerState.FALLING:
 			return "falling"
 	return ""
 
 func update_state() -> void:
 	match current_state:
-		PlayerState.IDLE:
-			if has_direction():
-				change_state(PlayerState.WALKING)
-			elif Input.is_action_pressed("run"):
-				change_state(PlayerState.RUNNING)
-			elif Input.is_action_pressed("jump"):
-				change_state(PlayerState.JUMPING)
-		PlayerState.WALKING:
-			if not has_direction():
-				change_state(PlayerState.IDLE)
-			elif Input.is_action_pressed("run"):
-				change_state(PlayerState.RUNNING)
-			elif Input.is_action_pressed("jump"):
-				change_state(PlayerState.JUMPING)
-		PlayerState.RUNNING:
-			if not has_direction():
-				change_state(PlayerState.IDLE)
-			elif not Input.is_action_pressed("run"):
-				change_state(PlayerState.WALKING)
-			elif Input.is_action_pressed("jump"):
-				change_state(PlayerState.JUMPING)
-		PlayerState.JUMPING:
-			if is_on_floor_only():
-				if has_direction():
-					change_state(PlayerState.WALKING)
+		PlayerState.IDLE, PlayerState.WALKING, PlayerState.RUNNING:
+			if Input.is_action_pressed("jump"):
+				current_state = PlayerState.JUMPING
+			elif has_direction():
+				if Input.is_action_pressed("run"):
+					current_state = PlayerState.RUNNING
 				else:
-					change_state(PlayerState.IDLE)
+					current_state = PlayerState.WALKING
+			else:
+				current_state = PlayerState.IDLE
+		PlayerState.JUMPING:
+			if is_on_floor():
+				if has_direction():
+					current_state = PlayerState.WALKING
+				else:
+					current_state = PlayerState.IDLE
+			elif Input.is_action_just_pressed("jump"):
+				current_state = PlayerState.DOUBLE_JUMP
 			elif velocity.y > 0.0:
-				change_state(PlayerState.FALLING) 
+				current_state = PlayerState.FALLING
+		PlayerState.DOUBLE_JUMP:
+			if is_on_floor():
+				if has_direction():
+					current_state = PlayerState.WALKING
+				else:
+					current_state = PlayerState.IDLE
+			elif velocity.y > 0.0:
+				current_state = PlayerState.FALLING
+		PlayerState.FALL_JUMP:
+			if is_on_floor():
+				if has_direction():
+					current_state = PlayerState.WALKING
+				else:
+					current_state = PlayerState.IDLE
+			elif velocity.y > 0.0:
+				current_state = PlayerState.FALLING
 		PlayerState.FALLING:
 			if is_on_floor():
 				if has_direction():
-					change_state(PlayerState.WALKING)
+					current_state = PlayerState.WALKING
 				else:
-					change_state(PlayerState.IDLE)
-	animated_sprite.play(get_player_state_string(current_state))
-	
+					current_state = PlayerState.IDLE
+			if Input.is_action_just_pressed("jump") and previous_state != PlayerState.DOUBLE_JUMP:
+				current_state = PlayerState.FALL_JUMP
+
 func _physics_process(delta: float) -> void:
-	handle_state(delta)
+	on_state(delta)
 	update_state()
 	
 func apply_gravity(delta: float) -> void:
@@ -88,40 +108,79 @@ func apply_gravity(delta: float) -> void:
 	
 func has_direction() -> bool:
 	return Input.get_axis("move_left", "move_right") != 0
-
-func handle_state(delta: float) -> void:
+	
+func on_state(delta: float) -> void:
 	apply_gravity(delta)
 	match current_state:
 		PlayerState.IDLE:
-			handle_idle()
+			on_idle()
 		PlayerState.WALKING:
-			handle_movement(delta, WALK_SPEED)
+			on_walking(delta)
 		PlayerState.RUNNING:
-			handle_movement(delta, RUN_SPEED)
+			on_running(delta)
 		PlayerState.JUMPING:
-			handle_jump(delta)
-			handle_movement(delta, WALK_SPEED)
+			on_jump(delta)
 		PlayerState.FALLING:
-			handle_movement(delta, WALK_SPEED)
+			on_falling(delta)
+		PlayerState.FALL_JUMP:
+			on_fall_jump(delta)
+		PlayerState.DOUBLE_JUMP:
+			on_double_jump(delta)	
 	move_and_slide()
 
-func handle_idle() -> void:
-	#print_debug("idle", "velocity.x: ", velocity.x)
+func on_idle() -> void:
 	velocity.x = lerp(velocity.x, 0.0, IDLE_LERP_AMOUNT)
 
-func handle_movement(delta: float, speed: float) -> void:
+func on_walking(delta: float) -> void:
+	do_movement(delta)
+
+func on_running(delta: float) -> void:
+	do_movement(delta)
+
+func on_falling(delta: float) -> void:
+	do_movement(delta)
+
+func do_movement(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right");
 	if absf(direction) > 0.0:
 		animated_sprite.flip_h = direction < 0
-	# print_debug("speed", speed, "direction", direction)
-	# print_debug("From: ", velocity.x, " To: ", direction, " Delta: ", ACCELERATION_SPEED * delta)
-	
-	velocity.x = move_toward(velocity.x, direction * speed, ACCELERATION_SPEED * delta)
+	var speed : float = WALK_SPEED
+	if Input.is_action_pressed("run"):
+		speed = RUN_SPEED
+		
+	var acceleration : float = ACCELERATION_SPEED * delta
+	var target_speed := direction * speed
+	# Using cubic_interpolate to smooth velocity
+	velocity.x = cubic_interpolate(velocity.x, target_speed, 0.0, 0.0, 0.5)
+	# Adjust final velocity value to include delta
+	velocity.x = move_toward(velocity.x, target_speed, acceleration)
 
-# Handles initial jump and sets the jump hold time.
-func handle_jump(delta: float) -> void:
+func can_jump_boost():
+	return Input.is_action_pressed("jump") and jump_boost_remaining_timer.time_left > 0
+
+func do_jump_boost(delta: float) -> void:
+	velocity.y -= JUMP_BOOST_FORCE * delta
+
+func on_jump(delta: float) -> void:
 	if is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		jump_count = 1
+		velocity.y = -JUMP_VELOCITY
 		jump_boost_remaining_timer.start()
-	elif Input.is_action_pressed("jump") and jump_boost_remaining_timer.time_left > 0:
-		velocity.y += JUMP_HOLD_FORCE * delta
+	elif can_jump_boost():
+		do_jump_boost(delta)
+	do_movement(delta)
+
+func do_extra_jump(delta: float) -> void:
+	if jump_count < max_jumps:
+		velocity.y = -JUMP_VELOCITY
+		jump_count += 1
+		jump_boost_remaining_timer.start()
+	elif can_jump_boost():
+		do_jump_boost(delta)
+	do_movement(delta)
+
+func on_double_jump(delta: float) -> void:
+	do_extra_jump(delta)
+
+func on_fall_jump(delta: float) -> void:
+	do_extra_jump(delta)

@@ -131,12 +131,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kmomj")
 }, {
-"duration": 1.0,
+"duration": 10.0,
 "texture": SubResource("AtlasTexture_08xuw")
 }],
 "loop": true,
 "name": &"jumping",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -174,14 +174,13 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uskl0"]
-radius = 6.0
-height = 20.0
+radius = 9.0
+height = 26.0
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(-351, 8)
 safe_margin = 0.1
 script = ExtResource("1_ngvvf")
-RUN_SPEED = 500.0
 
 [node name="JumpBoostRemainingTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -192,7 +191,6 @@ offset = Vector2(0, -10)
 zoom = Vector2(3, 3)
 
 [node name="DebugStateLabel" type="Label" parent="Camera2D"]
-visible = false
 offset_left = -32.0
 offset_top = -128.0
 offset_right = 16.0
