@@ -1,10 +1,10 @@
 [gd_scene load_steps=27 format=3 uid="uid://swasdbqxbths"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_ngvvf"]
-[ext_resource type="Texture2D" uid="uid://cpunref7fluwm" path="res://art/Graveyard [16x16]/Bonus Character/Ghost_Falling.png" id="3_suafn"]
-[ext_resource type="Texture2D" uid="uid://devm21d7ve2m1" path="res://art/Graveyard [16x16]/Bonus Character/Ghost_Idle.png" id="4_ca1j0"]
-[ext_resource type="Texture2D" uid="uid://swg6yxaueahi" path="res://art/Graveyard [16x16]/Bonus Character/Ghost_Jumping.png" id="5_3shdb"]
-[ext_resource type="Texture2D" uid="uid://ev74iy322xob" path="res://art/Graveyard [16x16]/Bonus Character/Ghost_Walk.png" id="6_46b2p"]
+[ext_resource type="Texture2D" uid="uid://cpunref7fluwm" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Falling.png" id="3_suafn"]
+[ext_resource type="Texture2D" uid="uid://devm21d7ve2m1" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Idle.png" id="4_ca1j0"]
+[ext_resource type="Texture2D" uid="uid://swg6yxaueahi" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Jumping.png" id="5_3shdb"]
+[ext_resource type="Texture2D" uid="uid://ev74iy322xob" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Walk.png" id="6_46b2p"]
 [ext_resource type="Script" path="res://player/label.gd" id="6_mctej"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2n0v2"]
@@ -187,10 +187,12 @@ wait_time = 0.2
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 offset = Vector2(0, -10)
 zoom = Vector2(3, 3)
 
 [node name="DebugStateLabel" type="Label" parent="Camera2D"]
+visible = false
 offset_left = -32.0
 offset_top = -128.0
 offset_right = 16.0

@@ -5,9 +5,9 @@
 
 [node name="Game" type="Node2D"]
 physics_interpolation_mode = 1
-position = Vector2(-208, 104)
 
 [node name="HalloweenLevel" parent="." instance=ExtResource("2_jq0d8")]
 
 [node name="Player" parent="HalloweenLevel" instance=ExtResource("2_nd0t2")]
+position = Vector2(-32, -112)
 JUMP_BOOST_FORCE = 400.0
