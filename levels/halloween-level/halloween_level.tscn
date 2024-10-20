@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://dnjw3n2s78vln"]
+[gd_scene load_steps=8 format=4 uid="uid://dnjw3n2s78vln"]
 
 [ext_resource type="Script" path="res://levels/halloween-level/halloween_level.gd" id="1_5xnae"]
 [ext_resource type="Texture2D" uid="uid://d2hdlo31j01mh" path="res://assets/Background.png" id="2_x7kiv"]
-[ext_resource type="PackedScene" uid="uid://8wsq2jm7xvin" path="res://interactable/candy.tscn" id="3_12qgt"]
 [ext_resource type="TileSet" uid="uid://mhhsum5fqpea" path="res://assets/halloween_level.tres" id="3_gfc2g"]
 [ext_resource type="Script" path="res://levels/halloween-level/tile_map_layer.gd" id="4_i568g"]
 [ext_resource type="Texture2D" uid="uid://b1qp0br2ckuf8" path="res://assets/hallowicons_1.png" id="5_onu4p"]
@@ -47,6 +46,8 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "0"
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 follow_viewport_enabled = true
 
@@ -64,7 +65,8 @@ tile_map_data = PackedByteArray("AAAAAP//AwABAAUAAAD/////AwABAAUAAAD+////AwAAAAU
 tile_set = ExtResource("3_gfc2g")
 script = ExtResource("4_i568g")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
 
-[node name="Candy" parent="." instance=ExtResource("3_12qgt")]
-position = Vector2(-672, -302)
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

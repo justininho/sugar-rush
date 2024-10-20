@@ -142,8 +142,9 @@ func on_falling(delta: float) -> void:
 
 func do_movement(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right");
-	if absf(direction) > 0.0:
-		animated_sprite.flip_h = direction < 0
+	animated_sprite.flip_h = false if direction > 0 else true
+	#if absf(direction) > 0.0:
+		#animated_sprite.flip_h = direction < 0
 	var speed : float = WALK_SPEED
 	if Input.is_action_pressed("run"):
 		speed = RUN_SPEED
@@ -151,9 +152,9 @@ func do_movement(delta: float) -> void:
 	var acceleration : float = ACCELERATION_SPEED * delta
 	var target_speed := direction * speed
 	# Using cubic_interpolate to smooth velocity
-	velocity.x = cubic_interpolate(velocity.x, target_speed, 0.0, 0.0, 0.5)
+	var x = cubic_interpolate(velocity.x, target_speed, 0.0, 0.0, 0.5)
 	# Adjust final velocity value to include delta
-	velocity.x = move_toward(velocity.x, target_speed, acceleration)
+	velocity.x = move_toward(x, target_speed, acceleration)
 
 func can_jump_boost():
 	return Input.is_action_pressed("jump") and jump_boost_remaining_timer.time_left > 0

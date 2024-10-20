@@ -49,6 +49,15 @@ run={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="ground"
+2d_physics/layer_2="player"
+2d_physics/layer_3="bat"
+2d_physics/layer_4="candy"
+2d_physics/layer_5="bat_detection_zone"
+2d_physics/layer_6="bat_aggro_zone"
+
 [rendering]
 
 2d/snap/snap_2d_transforms_to_pixel=true

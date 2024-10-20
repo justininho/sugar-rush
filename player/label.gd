@@ -11,5 +11,5 @@ func _process(delta: float) -> void:
 	pass
 
 
-func _on_player_state_change(state_string: String) -> void:
-	text = state_string
+func _on_bat_state_change(state: String) -> void:
+	text = state

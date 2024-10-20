@@ -179,6 +179,7 @@ height = 26.0
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(-351, 8)
+collision_layer = 2
 safe_margin = 0.1
 script = ExtResource("1_ngvvf")
 
