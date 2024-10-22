@@ -1,9 +1,9 @@
 extends Node2D
 
-const candy_scene := preload("res://interactable/candy.tscn")
-#@export var candy_scene: PackedScene
+const candy_scene := preload("res://levels/halloween-level/interactable/candy.tscn")
 @onready var tile_map_layer: TileMapLayer = %TileMapLayer
 @onready var candy_score: Label = %CandyScore
+@onready var spawn_timer: Timer = %SpawnTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +16,8 @@ func _process(delta: float) -> void:
 var candy_collected := 0
 func _on_candy_collected() -> void:
 	candy_collected += 1
+	
+func update_score(score: int):
 	candy_score.text = str(candy_collected)
 	
 func spawn_candy() -> void:
@@ -34,3 +36,28 @@ func spawn_candy() -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_candy()
+
+func _on_player_dead() -> void:
+	game_over() 
+	
+@onready var score_hud: CanvasLayer = $ScoreHUD
+@onready var start_game_hud: CanvasLayer = $StartGameHUD
+
+func start_game() -> void:
+	start_game_hud.hide()
+	update_score(0)
+	score_hud.show()
+	
+@onready var game_over_hud: CanvasLayer = $GameOverHUD
+
+func game_over() -> void:
+	score_hud.hide()
+	game_over_hud.show()
+	spawn_timer.stop()
+	get_tree().call_group("candy", "queue_free")
+	await get_tree().create_timer(1.0).timeout
+	game_over_hud.hide()
+	start_game_hud.show()
+	
+func _on_start_button_pressed() -> void:
+	start_game()

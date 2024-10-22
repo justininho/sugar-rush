@@ -1,0 +1,161 @@
+[gd_scene load_steps=18 format=3 uid="uid://duj6uvd8n7i0h"]
+
+[ext_resource type="Script" path="res://levels/halloween-level/enemy/bat.gd" id="1_jowhx"]
+[ext_resource type="Texture2D" uid="uid://stvyjg6irawi" path="res://levels/halloween-level/assets/BatVampire_Attack.png" id="2_k7s60"]
+[ext_resource type="Texture2D" uid="uid://cy6ox8cqmfpfv" path="res://levels/halloween-level/assets/BatVampire_Flying.png" id="3_ir5rh"]
+[ext_resource type="Script" path="res://levels/halloween-level/player/label.gd" id="3_siaoc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23mph"]
+atlas = ExtResource("2_k7s60")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqptm"]
+atlas = ExtResource("2_k7s60")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2x6r"]
+atlas = ExtResource("2_k7s60")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8i4j0"]
+atlas = ExtResource("2_k7s60")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cg2rs"]
+atlas = ExtResource("2_k7s60")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixrj3"]
+atlas = ExtResource("2_k7s60")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5fsb"]
+atlas = ExtResource("3_ir5rh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwlmt"]
+atlas = ExtResource("3_ir5rh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0uvbr"]
+atlas = ExtResource("3_ir5rh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo2xf"]
+atlas = ExtResource("3_ir5rh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0yspn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23mph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqptm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2x6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8i4j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cg2rs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixrj3")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h5fsb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwlmt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0uvbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo2xf")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cie34"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l0mvb"]
+radius = 3.0
+
+[node name="Bat" type="CharacterBody2D"]
+position = Vector2(0, 2)
+collision_layer = 4
+motion_mode = 1
+script = ExtResource("1_jowhx")
+
+[node name="AggroTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 30.0
+one_shot = true
+
+[node name="AttackCooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 3.0
+one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 2)
+sprite_frames = SubResource("SpriteFrames_0yspn")
+animation = &"attack"
+frame = 5
+frame_progress = 1.0
+metadata/_edit_group_ = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
+path_desired_distance = 10.0
+path_postprocessing = 1
+avoidance_enabled = true
+
+[node name="DebugStateLabel" type="Label" parent="."]
+offset_left = -9.0
+offset_top = -19.0
+offset_right = 47.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 12
+text = "idle	"
+script = ExtResource("3_siaoc")
+metadata/_edit_use_anchors_ = true
+
+[node name="AggroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroZone"]
+shape = SubResource("CircleShape2D_cie34")
+debug_color = Color(0.971762, 0.0798851, 0.377913, 0.42)
+
+[node name="AttackDurationTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+rotation = -1.57429
+shape = SubResource("CircleShape2D_l0mvb")
+metadata/_edit_group_ = true
+
+[connection signal="state_change" from="." to="DebugStateLabel" method="_on_bat_state_change"]
+[connection signal="timeout" from="AggroTimer" to="." method="_on_aggro_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="body_shape_entered" from="AggroZone" to="." method="_on_detection_zone_body_shape_entered"]
