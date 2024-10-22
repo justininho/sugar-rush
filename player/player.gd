@@ -185,3 +185,7 @@ func on_double_jump(delta: float) -> void:
 
 func on_fall_jump(delta: float) -> void:
 	do_extra_jump(delta)
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	print('hit')
+	pass # Replace with function body.

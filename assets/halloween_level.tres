@@ -1,9 +1,23 @@
-[gd_resource type="TileSet" load_steps=31 format=3 uid="uid://mhhsum5fqpea"]
+[gd_resource type="TileSet" load_steps=33 format=3 uid="uid://mhhsum5fqpea"]
 
 [ext_resource type="Texture2D" uid="uid://bc0dxbikutvs" path="res://assets/Graveyard [16x16]/Tiles/Back_Tiles.png" id="1_t2aku"]
+[ext_resource type="Texture2D" uid="uid://cthl2222ts5n5" path="res://assets/Graveyard [16x16]/Props&Objects/Trees.png" id="1_xclrl"]
 [ext_resource type="Texture2D" uid="uid://2n1r6bebc6n7" path="res://assets/Graveyard [16x16]/Tiles/Ground_Tiles.png" id="2_n8bqw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_equu6"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_81w1b"]
+texture = ExtResource("1_xclrl")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p8y6y"]
 texture = ExtResource("1_t2aku")
@@ -611,7 +625,7 @@ texture = ExtResource("2_n8bqw")
 
 [resource]
 physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 0
+physics_layer_0/collision_mask = 14
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_equu6")
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "orange_ground"
@@ -621,3 +635,4 @@ custom_data_layer_0/name = "can_spawn_on"
 custom_data_layer_0/type = 1
 sources/2 = SubResource("TileSetAtlasSource_p8y6y")
 sources/3 = SubResource("TileSetAtlasSource_id1s5")
+sources/0 = SubResource("TileSetAtlasSource_81w1b")

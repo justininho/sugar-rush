@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://swasdbqxbths"]
+[gd_scene load_steps=28 format=3 uid="uid://swasdbqxbths"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_ngvvf"]
 [ext_resource type="Texture2D" uid="uid://cpunref7fluwm" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Falling.png" id="3_suafn"]
@@ -6,6 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://swg6yxaueahi" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Jumping.png" id="5_3shdb"]
 [ext_resource type="Texture2D" uid="uid://ev74iy322xob" path="res://assets/Graveyard [16x16]/Bonus Character/Ghost_Walk.png" id="6_46b2p"]
 [ext_resource type="Script" path="res://player/label.gd" id="6_mctej"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uskl0"]
+radius = 8.0
+height = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_32r6r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2n0v2"]
 atlas = ExtResource("3_suafn")
@@ -173,15 +179,24 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uskl0"]
-radius = 9.0
-height = 26.0
-
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(-351, 8)
 collision_layer = 2
-safe_margin = 0.1
+collision_mask = 17
 script = ExtResource("1_ngvvf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_uskl0")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_32r6r")
+debug_color = Color(0.76107, 0.410461, 0.506921, 0.42)
 
 [node name="JumpBoostRemainingTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -204,10 +219,7 @@ script = ExtResource("6_mctej")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_kstkf")
-animation = &"falling"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
-shape = SubResource("CapsuleShape2D_uskl0")
+animation = &"idle"
 
 [connection signal="state_change" from="." to="Camera2D/DebugStateLabel" method="_on_player_state_change"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]

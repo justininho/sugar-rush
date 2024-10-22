@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d23lp7xmi6nq1"
-path="res://.godot/imported/BatVampire_Sheet.png-f864d5a4bd3b3de504bf5852e3520274.ctex"
+uid="uid://stvyjg6irawi"
+path="res://.godot/imported/BatVampire_Attack.png-4d5622cd6070ae42537f4708e8cebc48.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemy/BatVampire_Sheet.png"
-dest_files=["res://.godot/imported/BatVampire_Sheet.png-f864d5a4bd3b3de504bf5852e3520274.ctex"]
+source_file="res://assets/BatVampire_Attack.png"
+dest_files=["res://.godot/imported/BatVampire_Attack.png-4d5622cd6070ae42537f4708e8cebc48.ctex"]
 
 [params]
 

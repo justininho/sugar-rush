@@ -17,3 +17,6 @@ func random_region() -> Rect2:
 	var base_x := 48
 	var offset := randi_range(0, 4)
 	return Rect2(base_x + 16 * offset, 0, 16, 16)
+
+func _on_despawn_timer_timeout() -> void:
+	queue_free()

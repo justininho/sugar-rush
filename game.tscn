@@ -75,11 +75,11 @@ autostart = true
 
 [node name="Player" parent="." instance=ExtResource("2_nd0t2")]
 position = Vector2(0, -104)
-collision_mask = 13
 JUMP_BOOST_FORCE = 400.0
 
-[node name="Bat" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_s6fbd")]
+[node name="Bat" parent="." instance=ExtResource("3_s6fbd")]
 position = Vector2(-160, -136)
-target = NodePath("../Player")
+attack_range = 50.0
+attack_speed = 200.0
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
