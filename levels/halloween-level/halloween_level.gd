@@ -16,6 +16,7 @@ func _process(delta: float) -> void:
 var candy_collected := 0
 func _on_candy_collected() -> void:
 	candy_collected += 1
+	update_score(candy_collected)
 	
 func update_score(score: int):
 	candy_score.text = str(candy_collected)
@@ -37,27 +38,27 @@ func spawn_candy() -> void:
 func _on_spawn_timer_timeout() -> void:
 	spawn_candy()
 
-func _on_player_dead() -> void:
-	game_over() 
-	
-@onready var score_hud: CanvasLayer = $ScoreHUD
-@onready var start_game_hud: CanvasLayer = $StartGameHUD
-
-func start_game() -> void:
-	start_game_hud.hide()
-	update_score(0)
-	score_hud.show()
-	
-@onready var game_over_hud: CanvasLayer = $GameOverHUD
-
-func game_over() -> void:
-	score_hud.hide()
-	game_over_hud.show()
-	spawn_timer.stop()
-	get_tree().call_group("candy", "queue_free")
-	await get_tree().create_timer(1.0).timeout
-	game_over_hud.hide()
-	start_game_hud.show()
-	
-func _on_start_button_pressed() -> void:
-	start_game()
+#func _on_player_dead() -> void:
+	#game_over() 
+	#
+#@onready var score_hud: CanvasLayer = $ScoreHUD
+#@onready var start_game_hud: CanvasLayer = $StartGameHUD
+#
+#func start_game() -> void:
+	#start_game_hud.hide()
+	#update_score(0)
+	#score_hud.show()
+	#
+#@onready var game_over_hud: CanvasLayer = $GameOverHUD
+#
+#func game_over() -> void:
+	#score_hud.hide()
+	#game_over_hud.show()
+	#spawn_timer.stop()
+	#get_tree().call_group("candy", "queue_free")
+	#await get_tree().create_timer(1.0).timeout
+	#game_over_hud.hide()
+	#start_game_hud.show()
+	#
+#func _on_start_button_pressed() -> void:
+	#start_game()

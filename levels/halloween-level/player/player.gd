@@ -15,9 +15,8 @@ extends CharacterBody2D
 var jump_count := 0
 var max_jumps := 2
 
-@export var health := 3
-
 signal dead
+signal hit(health: int)
 
 signal state_change(state_string: String)
 
@@ -147,8 +146,6 @@ func on_falling(delta: float) -> void:
 func do_movement(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right");
 	animated_sprite.flip_h = false if direction > 0 else true
-	#if absf(direction) > 0.0:
-		#animated_sprite.flip_h = direction < 0
 	var speed : float = WALK_SPEED
 	if Input.is_action_pressed("run"):
 		speed = RUN_SPEED
@@ -189,9 +186,17 @@ func on_double_jump(delta: float) -> void:
 
 func on_fall_jump(delta: float) -> void:
 	do_extra_jump(delta)
+	
+@onready var invincibility_timer: Timer = %InvincibilityTimer
+
+@export var health := 3
 
 func _on_hit_box_body_entered(body: Node2D) -> void:
-	health -= 1
-	print('health: ', health)
+	
+	if invincibility_timer.is_stopped():
+		health -= 1
+		invincibility_timer.start()
+		
+	hit.emit(health)
 	if health <= 0:
-		dead.emit()
+			dead.emit()
