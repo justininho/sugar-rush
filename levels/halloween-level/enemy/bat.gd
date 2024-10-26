@@ -67,11 +67,11 @@ func _physics_process(delta: float) -> void:
 	on_state(delta)
 	update_state()
 
-@export var WANDER_RADIUS = 50.0
+@export var WANDER_RADIUS = 75.0
 @export var WANDER_SPEED = 25.0
 var wander_target = null
 func on_idle(delta: float) -> void:
-	if wander_target == null or global_position.distance_to(wander_target) < WANDER_RADIUS * .25:
+	if wander_target == null or !navigation_agent_2d.is_target_reachable() or global_position.distance_to(wander_target) < WANDER_RADIUS * .25:
 		wander_target = get_wander_target()
 	do_navigation(wander_target, WANDER_SPEED)
 		
