@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://vrdn25op2sb2"]
+
+[ext_resource type="Texture2D" uid="uid://cthl2222ts5n5" path="res://levels/halloween-level/assets/Graveyard [16x16]/Props&Objects/Trees.png" id="1_o0dwr"]
+
+[node name="Tree" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(32, 24)
+texture = ExtResource("1_o0dwr")

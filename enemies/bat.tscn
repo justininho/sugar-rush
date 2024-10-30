@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://duj6uvd8n7i0h"]
 
-[ext_resource type="Script" path="res://levels/halloween-level/enemy/bat.gd" id="1_jowhx"]
+[ext_resource type="Script" path="res://enemies/bat.gd" id="1_jowhx"]
 [ext_resource type="Texture2D" uid="uid://stvyjg6irawi" path="res://levels/halloween-level/assets/BatVampire_Attack.png" id="2_k7s60"]
 [ext_resource type="Texture2D" uid="uid://cy6ox8cqmfpfv" path="res://levels/halloween-level/assets/BatVampire_Flying.png" id="3_ir5rh"]
 [ext_resource type="Script" path="res://levels/halloween-level/player/label.gd" id="3_siaoc"]
@@ -89,7 +89,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cie34"]
-radius = 32.0
+radius = 46.0109
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l0mvb"]
 radius = 3.0
@@ -102,7 +102,7 @@ script = ExtResource("1_jowhx")
 
 [node name="AggroTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 30.0
+wait_time = 15.0
 one_shot = true
 
 [node name="AttackCooldownTimer" type="Timer" parent="."]
@@ -124,8 +124,10 @@ unique_name_in_owner = true
 path_desired_distance = 10.0
 path_postprocessing = 1
 avoidance_enabled = true
+debug_enabled = true
 
 [node name="DebugStateLabel" type="Label" parent="."]
+visible = false
 offset_left = -9.0
 offset_top = -19.0
 offset_right = 47.0
@@ -141,6 +143,7 @@ collision_layer = 16
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroZone"]
+visible = false
 shape = SubResource("CircleShape2D_cie34")
 debug_color = Color(0.971762, 0.0798851, 0.377913, 0.42)
 
@@ -149,6 +152,7 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 3)
 rotation = -1.57429
 shape = SubResource("CircleShape2D_l0mvb")

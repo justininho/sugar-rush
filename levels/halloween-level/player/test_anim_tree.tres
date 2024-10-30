@@ -1,0 +1,117 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=25 format=3 uid="uid://bbpix54di8kym"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ddtf8"]
+animation = &"falling_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ab027"]
+animation = &"falling_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_3f0u2"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_ddtf8")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_ab027")
+blend_point_1/pos = 1.0
+snap = 1.0
+blend_mode = 2
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mp32c"]
+animation = &"idle_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_esnrk"]
+animation = &"idle_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7oguw"]
+animation = &"idle_left"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_sqedu"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_mp32c")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_esnrk")
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_7oguw")
+blend_point_2/pos = -1.0
+snap = 1.0
+blend_mode = 2
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sa6nk"]
+animation = &"jumping_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mft5c"]
+animation = &"jumping_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_8gdla"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_sa6nk")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_mft5c")
+blend_point_1/pos = 1.0
+snap = 1.0
+blend_mode = 2
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l7cpy"]
+animation = &"walking_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sky70"]
+animation = &"walking_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_u78yr"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_l7cpy")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_sky70")
+blend_point_1/pos = 1.0
+snap = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ufwrg"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.JUMPING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_k7fe7"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.IDLE"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u7r8x"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.WALKING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yhuh6"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.WALKING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bgnv2"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.IDLE"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xu84p"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.JUMPING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_grctm"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.FALLING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6b68k"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.FALLING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ol462"]
+advance_mode = 2
+advance_expression = "current_state == JUMPING or current_state == PlayerState.FALL_JUMP or current_state == PlayerState.DOUBLE_JUMP"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_62784"]
+advance_mode = 2
+advance_expression = "current_state == PlayerState.WALKING"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8241h"]
+advance_mode = 2
+
+[resource]
+states/End/position = Vector2(958, 100)
+states/Start/position = Vector2(196, 45)
+states/falling/node = SubResource("AnimationNodeBlendSpace1D_3f0u2")
+states/falling/position = Vector2(636, 288)
+states/idle/node = SubResource("AnimationNodeBlendSpace1D_sqedu")
+states/idle/position = Vector2(341, 45)
+states/jumping/node = SubResource("AnimationNodeBlendSpace1D_8gdla")
+states/jumping/position = Vector2(641, 45)
+states/walking/node = SubResource("AnimationNodeBlendSpace1D_u78yr")
+states/walking/position = Vector2(341, 288)
+transitions = ["idle", "jumping", SubResource("AnimationNodeStateMachineTransition_ufwrg"), "jumping", "idle", SubResource("AnimationNodeStateMachineTransition_k7fe7"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_u7r8x"), "jumping", "walking", SubResource("AnimationNodeStateMachineTransition_yhuh6"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_bgnv2"), "walking", "jumping", SubResource("AnimationNodeStateMachineTransition_xu84p"), "walking", "falling", SubResource("AnimationNodeStateMachineTransition_grctm"), "jumping", "falling", SubResource("AnimationNodeStateMachineTransition_6b68k"), "falling", "jumping", SubResource("AnimationNodeStateMachineTransition_ol462"), "falling", "walking", SubResource("AnimationNodeStateMachineTransition_62784"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_8241h")]

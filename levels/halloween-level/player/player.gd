@@ -12,25 +12,25 @@ extends CharacterBody2D
 @onready var animated_sprite := $AnimatedSprite2D as AnimatedSprite2D
 @onready var jump_boost_remaining_timer := $JumpBoostRemainingTimer as Timer
 
+@onready var animation_tree: AnimationTree = %AnimationTree
+
 var jump_count := 0
 var max_jumps := 2
 
 signal dead
 signal hit(health: int)
-
 signal state_change(state_string: String)
 
-enum PlayerState {IDLE, WALKING, RUNNING, JUMPING, FALL_JUMP, DOUBLE_JUMP, FALLING}
+enum PlayerState {IDLE, WALKING, RUNNING, JUMPING, FALL_JUMP, DOUBLE_JUMP, FALLING, DEAD}	
 
 var previous_state := PlayerState.IDLE
 var current_state := PlayerState.IDLE :
-	set(state):  
+	set(state):
 		if current_state == state:
 			return
 		
 		previous_state = current_state
 		current_state = state
-		animated_sprite.play(get_player_state_string(state))
 		state_change.emit(get_player_state_string(state)) 
 		match state:
 			PlayerState.WALKING, PlayerState.RUNNING, PlayerState.IDLE:
@@ -52,10 +52,16 @@ func get_player_state_string(state: PlayerState) -> String:
 			return "fall_jumping"
 		PlayerState.FALLING:
 			return "falling"
+		PlayerState.DEAD:
+			return "dead"
 	return ""
 
 func update_state() -> void:
+	if health <= 0:
+			current_state = PlayerState.DEAD
 	match current_state:
+		PlayerState.DEAD:
+			return
 		PlayerState.IDLE, PlayerState.WALKING, PlayerState.RUNNING:
 			if Input.is_action_pressed("jump"):
 				current_state = PlayerState.JUMPING
@@ -103,7 +109,9 @@ func update_state() -> void:
 
 func _physics_process(delta: float) -> void:
 	on_state(delta)
-	update_state()
+	if !is_dead():
+		check_hit()
+		update_state()
 	
 func apply_gravity(delta: float) -> void:
 	if not is_on_floor():
@@ -145,9 +153,11 @@ func on_falling(delta: float) -> void:
 
 func do_movement(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right");
-	animated_sprite.flip_h = false if direction > 0 else true
+	if direction != 0:
+		set_animation_tree_blends(direction)
+		
 	var speed : float = WALK_SPEED
-	if Input.is_action_pressed("run"):
+	if Input.is_action_pressed("run"): 
 		speed = RUN_SPEED
 		
 	var acceleration : float = ACCELERATION_SPEED * delta
@@ -156,7 +166,7 @@ func do_movement(delta: float) -> void:
 	var x = cubic_interpolate(velocity.x, target_speed, 0.0, 0.0, 0.5)
 	# Adjust final velocity value to include delta
 	velocity.x = move_toward(x, target_speed, acceleration)
-
+	
 func can_jump_boost():
 	return Input.is_action_pressed("jump") and jump_boost_remaining_timer.time_left > 0
 
@@ -188,15 +198,69 @@ func on_fall_jump(delta: float) -> void:
 	do_extra_jump(delta)
 	
 @onready var invincibility_timer: Timer = %InvincibilityTimer
-
 @export var health := 3
+@onready var hit_box: Area2D = %HitBox
 
-func _on_hit_box_body_entered(body: Node2D) -> void:
-	
-	if invincibility_timer.is_stopped():
+func check_hit() -> void:
+	if hit_box.has_overlapping_bodies() and invincibility_timer.is_stopped():
 		health -= 1
-		invincibility_timer.start()
-		
-	hit.emit(health)
-	if health <= 0:
+		if health > 0:
+			invincibility_timer.start()
+			hit.emit(health)
+			animation_tree["parameters/hit_one_shot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+		else:
 			dead.emit()
+			animation_tree["parameters/dead_or_alive/transition_request"] = "dead"
+
+func set_animation_tree_blends(direction: int) -> void:
+	animation_tree["parameters/movement/idle/blend_position"] = direction
+	animation_tree["parameters/movement/jumping/blend_position"] = direction
+	animation_tree["parameters/movement/walking/blend_position"] = direction
+	animation_tree["parameters/movement/falling/blend_position"] = direction
+	animation_tree["parameters/dead/blend_position"] = direction
+	animation_tree["parameters/hit/blend_position"] = direction
+
+	
+func is_idle() -> bool:
+	return current_state == PlayerState.IDLE
+	
+func is_walking() -> bool:
+	return current_state == PlayerState.WALKING or current_state == PlayerState.RUNNING
+
+func is_jumping() -> bool:
+	return current_state == PlayerState.JUMPING or current_state == PlayerState.DOUBLE_JUMP or current_state == PlayerState.FALL_JUMP
+
+func is_falling() -> bool:
+	return current_state == PlayerState.FALLING
+
+func is_dead() -> bool:
+	return current_state == PlayerState.DEAD
+#func _on_animated_sprite_2d_animation_finished() -> void:
+	##	this could be better solved with an animation tree.
+	##	this is so I can play the "hit" animation and then return back to the right animation
+	#var anim := animated_sprite.animation
+	#var current_state_animation := get_player_state_string(current_state)
+	#if animated_sprite.animation != current_state_animation:
+		#animated_sprite.play(current_state_animation)
+		#
+	#
+	#if anim == "dead":
+				## Seek to the last frame and stop
+				##var animation = anim_player.get_animation(anim_name)
+				#animated_sprite.seek(animation.length, true)  # true to stop the animation at that point
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

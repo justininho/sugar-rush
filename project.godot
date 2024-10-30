@@ -56,6 +56,7 @@ run={
 2d_physics/layer_3="bat_body"
 2d_physics/layer_4="candy"
 2d_physics/layer_5="bat_aggro_zone"
+2d_physics/layer_6="spikes"
 2d_physics/layer_7="player_hitbox"
 2d_physics/layer_8="bat_hitbox"
 
