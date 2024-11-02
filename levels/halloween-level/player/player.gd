@@ -11,11 +11,14 @@ extends CharacterBody2D
 
 @onready var animated_sprite := $AnimatedSprite2D as AnimatedSprite2D
 @onready var jump_boost_remaining_timer := $JumpBoostRemainingTimer as Timer
+@onready var coyote_jump_timer: Timer = $CoyoteJumpTimer
 
 @onready var animation_tree: AnimationTree = %AnimationTree
 
 var jump_count := 0
 var max_jumps := 2
+
+var spawn_position := Vector2.ZERO
 
 signal dead
 signal hit(health: int)
@@ -32,10 +35,11 @@ var current_state := PlayerState.IDLE :
 		previous_state = current_state
 		current_state = state
 		state_change.emit(get_player_state_string(state)) 
+				
 		match state:
 			PlayerState.WALKING, PlayerState.RUNNING, PlayerState.IDLE:
 				jump_count = 0
-
+				
 func get_player_state_string(state: PlayerState) -> String:
 	match state:
 		PlayerState.IDLE:
@@ -56,6 +60,9 @@ func get_player_state_string(state: PlayerState) -> String:
 			return "dead"
 	return ""
 
+func _ready() -> void:
+	spawn_position = position
+
 func update_state() -> void:
 	if health <= 0:
 			current_state = PlayerState.DEAD
@@ -63,6 +70,8 @@ func update_state() -> void:
 		PlayerState.DEAD:
 			return
 		PlayerState.IDLE, PlayerState.WALKING, PlayerState.RUNNING:
+			if !is_on_floor():
+				coyote_jump_timer.start()
 			if Input.is_action_pressed("jump"):
 				current_state = PlayerState.JUMPING
 			elif has_direction():
@@ -70,6 +79,8 @@ func update_state() -> void:
 					current_state = PlayerState.RUNNING
 				else:
 					current_state = PlayerState.WALKING
+			elif velocity.y > 0.0:
+				current_state = PlayerState.FALLING
 			else:
 				current_state = PlayerState.IDLE
 		PlayerState.JUMPING:
@@ -174,10 +185,12 @@ func do_jump_boost(delta: float) -> void:
 	velocity.y -= JUMP_BOOST_FORCE * delta
 
 func on_jump(delta: float) -> void:
-	if is_on_floor():
+	if is_on_floor() or coyote_jump_timer.time_left > 0:
 		jump_count = 1
 		velocity.y = -JUMP_VELOCITY
 		jump_boost_remaining_timer.start()
+		if !coyote_jump_timer.is_stopped():
+			coyote_jump_timer.stop()
 	elif can_jump_boost():
 		do_jump_boost(delta)
 	do_movement(delta)
@@ -209,6 +222,7 @@ func check_hit() -> void:
 			hit.emit(health)
 			animation_tree["parameters/hit_one_shot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 		else:
+			velocity = Vector2.ZERO
 			dead.emit()
 			animation_tree["parameters/dead_or_alive/transition_request"] = "dead"
 
@@ -235,32 +249,6 @@ func is_falling() -> bool:
 
 func is_dead() -> bool:
 	return current_state == PlayerState.DEAD
-#func _on_animated_sprite_2d_animation_finished() -> void:
-	##	this could be better solved with an animation tree.
-	##	this is so I can play the "hit" animation and then return back to the right animation
-	#var anim := animated_sprite.animation
-	#var current_state_animation := get_player_state_string(current_state)
-	#if animated_sprite.animation != current_state_animation:
-		#animated_sprite.play(current_state_animation)
-		#
-	#
-	#if anim == "dead":
-				## Seek to the last frame and stop
-				##var animation = anim_player.get_animation(anim_name)
-				#animated_sprite.seek(animation.length, true)  # true to stop the animation at that point
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
+func spawn() -> void:
+	position = spawn_position

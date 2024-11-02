@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bpv048nqvf65f"]
+
+[ext_resource type="FontFile" uid="uid://eil3hty618a8" path="res://levels/halloween-level/assets/Haedus_Font_1_20/Haedus.otf" id="1_gptkg"]
+
+[resource]
+default_font = ExtResource("1_gptkg")
+default_font_size = 32

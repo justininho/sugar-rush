@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://8wsq2jm7xvin"]
+[gd_scene load_steps=4 format=3 uid="uid://8wsq2jm7xvin"]
 
 [ext_resource type="Script" path="res://levels/halloween-level/interactable/candy.gd" id="1_5v65j"]
 [ext_resource type="Texture2D" uid="uid://b1qp0br2ckuf8" path="res://levels/halloween-level/assets/hallowicons_1.png" id="2_4418h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jug1b"]
+radius = 8.0
 
 [node name="Candy" type="Node2D" groups=["candy"]]
 script = ExtResource("1_5v65j")
@@ -18,9 +21,9 @@ centered = false
 region_enabled = true
 region_rect = Rect2(48, 0, 16, 16)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-build_mode = 1
-polygon = PackedVector2Array(7, 2, 5, 3, 5, 4, 4, 4, 4, 5, 4, 6, 3, 6, 3, 10, 4, 10, 4, 11, 5, 11, 6, 11, 6, 12, 9, 12, 9, 13, 15, 13, 15, 12, 16, 12, 16, 8, 15, 8, 15, 6, 14, 6, 14, 4, 13, 4, 13, 3, 12, 3, 12, 2, 7, 2)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(10, 8)
+shape = SubResource("CircleShape2D_jug1b")
 
 [node name="DespawnTimer" type="Timer" parent="." groups=["candy"]]
 wait_time = 15.0

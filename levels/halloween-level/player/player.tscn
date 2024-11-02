@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://swasdbqxbths"]
+[gd_scene load_steps=69 format=3 uid="uid://swasdbqxbths"]
 
 [ext_resource type="Script" path="res://levels/halloween-level/player/player.gd" id="1_ngvvf"]
 [ext_resource type="Texture2D" uid="uid://4nt4yfjens4u" path="res://levels/halloween-level/assets/Graveyard [16x16]/Bonus Character/Ghost_Death.png" id="3_etdrk"]
@@ -8,8 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://d3rn6tkk4u1wc" path="res://levels/halloween-level/assets/Graveyard [16x16]/Bonus Character/Ghost_Hurt.png" id="5_wc4eh"]
 [ext_resource type="Texture2D" uid="uid://ev74iy322xob" path="res://levels/halloween-level/assets/Graveyard [16x16]/Bonus Character/Ghost_Walk.png" id="6_46b2p"]
 [ext_resource type="Script" path="res://levels/halloween-level/player/label.gd" id="6_mctej"]
+[ext_resource type="AudioStream" uid="uid://bi1plhjyxvmqb" path="res://levels/halloween-level/assets/effects/jump.ogg" id="9_2kxgm"]
+[ext_resource type="AudioStream" uid="uid://rcobs0u43wk5" path="res://levels/halloween-level/assets/Gore_Wet_7.wav" id="9_6cli0"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bglwu0o0n11ta" path="res://levels/halloween-level/player/movement_state_machine.tres" id="9_gnjxr"]
 [ext_resource type="Texture2D" uid="uid://lcfojntslmi8" path="res://levels/halloween-level/assets/Graveyard [16x16]/Bonus Character/Ghost_Sheet.png" id="9_pgpsn"]
+[ext_resource type="AudioStream" uid="uid://dlcthbs0to0m8" path="res://levels/halloween-level/assets/effects/mud_01_c.wav" id="10_swf7i"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uskl0"]
 radius = 8.0
@@ -435,6 +438,21 @@ tracks/1/keys = {
 "update": 1,
 "values": [32, 33, 34, 35]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.319189,
+"start_offset": 0.0,
+"stream": ExtResource("9_6cli0")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_qyrod"]
 resource_name = "hit_right"
@@ -464,6 +482,21 @@ tracks/1/keys = {
 "update": 1,
 "values": [32, 33, 34, 35]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.319189,
+"start_offset": 0.0,
+"stream": ExtResource("9_6cli0")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_f00ke"]
 resource_name = "idle_left"
@@ -554,6 +587,21 @@ tracks/1/keys = {
 "update": 2,
 "values": [16, 17, 18]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("9_2kxgm")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_dqb3y"]
 resource_name = "jumping_right"
@@ -584,6 +632,21 @@ tracks/1/keys = {
 "update": 2,
 "values": [16, 17, 18]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("9_2kxgm")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_1ehkp"]
 resource_name = "running_left"
@@ -644,6 +707,21 @@ tracks/1/keys = {
 "update": 1,
 "values": [7, 8, 9, 10]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("10_swf7i")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_ktlue"]
 resource_name = "walking_right"
@@ -674,6 +752,21 @@ tracks/1/keys = {
 "update": 1,
 "values": [7, 8, 9, 10]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("10_swf7i")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_px3el"]
 _data = {
@@ -735,7 +828,7 @@ blend_mode = 1
 break_loop_at_end = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_d7vb8"]
-graph_offset = Vector2(-77.8618, 72.3327)
+graph_offset = Vector2(31.68, 127.68)
 nodes/dead/node = SubResource("AnimationNodeBlendSpace1D_4l7ps")
 nodes/dead/position = Vector2(340, 380)
 nodes/dead_or_alive/node = SubResource("AnimationNodeTransition_irhmc")
@@ -765,8 +858,11 @@ shape = SubResource("CapsuleShape2D_uskl0")
 wait_time = 0.2
 one_shot = true
 
+[node name="CoyoteJumpTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
-visible = false
 offset = Vector2(0, -10)
 zoom = Vector2(3, 3)
 
@@ -826,7 +922,7 @@ parameters/hit_one_shot/active = false
 parameters/hit_one_shot/internal_active = false
 parameters/hit_one_shot/request = 0
 parameters/movement/falling/blend_position = 0
-parameters/movement/idle/blend_position = 0
+parameters/movement/idle/blend_position = -0.0334928
 parameters/movement/jumping/blend_position = 0
 parameters/movement/walking/blend_position = 0
 
@@ -834,6 +930,10 @@ parameters/movement/walking/blend_position = 0
 texture = ExtResource("9_pgpsn")
 hframes = 8
 vframes = 6
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -30.0
+bus = &"Player"
 
 [connection signal="state_change" from="." to="Camera2D/DebugStateLabel" method="_on_player_state_change"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

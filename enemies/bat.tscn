@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://duj6uvd8n7i0h"]
+[gd_scene load_steps=19 format=3 uid="uid://duj6uvd8n7i0h"]
 
 [ext_resource type="Script" path="res://enemies/bat.gd" id="1_jowhx"]
 [ext_resource type="Texture2D" uid="uid://stvyjg6irawi" path="res://levels/halloween-level/assets/BatVampire_Attack.png" id="2_k7s60"]
 [ext_resource type="Texture2D" uid="uid://cy6ox8cqmfpfv" path="res://levels/halloween-level/assets/BatVampire_Flying.png" id="3_ir5rh"]
 [ext_resource type="Script" path="res://levels/halloween-level/player/label.gd" id="3_siaoc"]
+[ext_resource type="AudioStream" uid="uid://x3f1kxhw1b20" path="res://levels/halloween-level/assets/Hiss.wav" id="5_ilxdf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23mph"]
 atlas = ExtResource("2_k7s60")
@@ -124,7 +125,6 @@ unique_name_in_owner = true
 path_desired_distance = 10.0
 path_postprocessing = 1
 avoidance_enabled = true
-debug_enabled = true
 
 [node name="DebugStateLabel" type="Label" parent="."]
 visible = false
@@ -157,6 +157,11 @@ position = Vector2(0, 3)
 rotation = -1.57429
 shape = SubResource("CircleShape2D_l0mvb")
 metadata/_edit_group_ = true
+
+[node name="AttackSfx" type="AudioStreamPlayer2D" parent="." groups=["enemy"]]
+stream = ExtResource("5_ilxdf")
+volume_db = -25.0
+bus = &"Enemy"
 
 [connection signal="state_change" from="." to="DebugStateLabel" method="_on_bat_state_change"]
 [connection signal="timeout" from="AggroTimer" to="." method="_on_aggro_timer_timeout"]

@@ -8,6 +8,7 @@ var target: Node2D = null
 @onready var aggro_zone: Area2D = %AggroZone
 @onready var aggro_timer: Timer = %AggroTimer
 @onready var attack_duration_timer: Timer = %AttackDurationTimer
+@onready var attack_sfx: AudioStreamPlayer2D = $AttackSfx
 
 signal state_change(state: String)
 
@@ -125,6 +126,7 @@ func set_animation() -> void:
 		BatStates.IDLE, BatStates.CHASE:
 			animated_sprite_2d.play("fly")
 		BatStates.ATTACK:
+			attack_sfx.play()
 			animated_sprite_2d.play("attack")
 			
 func get_state_string(state: BatStates) -> String:
@@ -137,7 +139,5 @@ func get_state_string(state: BatStates) -> String:
 			return "ATTACK"
 	return ""
 
-
 func _on_attack_cooldown_timer_timeout() -> void:
-	print('attack cooldown over')
 	pass # Replace with function body.

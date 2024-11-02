@@ -10,6 +10,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-
-func _on_bat_state_change(state: String) -> void:
-	text = state
+func _on_player_state_change(state_string: String) -> void:
+	text = state_string
+	pass # Replace with function body.
