@@ -257,7 +257,7 @@ text = "High Score: 0"
 
 [node name="TakeCandySfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_xev8h")
-volume_db = -30.0
+volume_db = -20.0
 bus = &"Effects"
 
 [node name="DeathSfx" type="AudioStreamPlayer2D" parent="."]
@@ -266,7 +266,7 @@ volume_db = -10.0
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_ydpfl")
-volume_db = -35.0
+volume_db = -25.0
 
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true

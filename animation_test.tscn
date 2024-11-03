@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=4 uid="uid://dqpvelpp7evqe"]
+[gd_scene load_steps=4 format=4 uid="uid://bpa5k7e8yqvmv"]
 
 [ext_resource type="TileSet" uid="uid://mhhsum5fqpea" path="res://levels/halloween-level/assets/halloween_level.tres" id="1_ls5b3"]
 [ext_resource type="Script" path="res://levels/halloween-level/tile_map_layer.gd" id="2_sm6w8"]
