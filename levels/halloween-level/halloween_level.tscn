@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://duj6uvd8n7i0h" path="res://enemies/bat.tscn" id="7_aucij"]
 [ext_resource type="Theme" uid="uid://bpv048nqvf65f" path="res://levels/halloween-level/assets/halloween_theme.tres" id="8_oa43b"]
 [ext_resource type="Script" path="res://levels/halloween-level/game_timer.gd" id="8_tyrer"]
-[ext_resource type="Script" path="res://levels/halloween-level/payer_lives_container.gd" id="9_jo1m1"]
+[ext_resource type="Script" path="res://levels/halloween-level/player_lives_container.gd" id="9_jo1m1"]
 [ext_resource type="AudioStream" uid="uid://c1adragvkgm2f" path="res://levels/halloween-level/assets/sfx/candy.ogg" id="9_xev8h"]
 [ext_resource type="AudioStream" uid="uid://coaicsl1mgsa" path="res://levels/halloween-level/assets/sfx/death.wav" id="9_ymv8v"]
 [ext_resource type="AudioStream" uid="uid://b4pjmhsa3knv8" path="res://levels/halloween-level/assets/sfx/music.mp3" id="11_ydpfl"]
@@ -136,7 +136,7 @@ theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 2
 
-[node name="PayerLivesContainer" type="PanelContainer" parent="HUD/GameHUD"]
+[node name="PlayerLivesContainer" type="PanelContainer" parent="HUD/GameHUD"]
 unique_name_in_owner = true
 offset_right = 32.0
 offset_bottom = 32.0
@@ -144,11 +144,11 @@ scale = Vector2(2, 2)
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ll2rr")
 script = ExtResource("9_jo1m1")
 
-[node name="PlayerLivesGridContainer" type="GridContainer" parent="HUD/GameHUD/PayerLivesContainer"]
+[node name="PlayerLivesGridContainer" type="GridContainer" parent="HUD/GameHUD/PlayerLivesContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerLifeIcon" type="TextureRect" parent="HUD/GameHUD/PayerLivesContainer/PlayerLivesGridContainer"]
+[node name="PlayerLifeIcon" type="TextureRect" parent="HUD/GameHUD/PlayerLivesContainer/PlayerLivesGridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -306,4 +306,4 @@ position = Vector2(-36, 0)
 [connection signal="pressed" from="HUD/StartGameHUD/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="dead" from="Player" to="." method="_on_player_dead"]
-[connection signal="hit" from="Player" to="HUD/GameHUD/PayerLivesContainer" method="_on_player_hit"]
+[connection signal="hit" from="Player" to="HUD/GameHUD/PlayerLivesContainer" method="_on_player_hit"]
