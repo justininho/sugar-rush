@@ -62,6 +62,7 @@ func get_player_state_string(state: PlayerState) -> String:
 
 func _ready() -> void:
 	spawn_position = position
+	set_animation_tree_blends(-1)
 
 func update_state() -> void:
 	if health <= 0:
@@ -161,6 +162,8 @@ func on_running(delta: float) -> void:
 
 func on_falling(delta: float) -> void:
 	do_movement(delta)
+	
+@onready var walking_sfx: AudioStreamPlayer2D = $WalkingSfx
 
 func do_movement(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right");
@@ -183,9 +186,12 @@ func can_jump_boost():
 
 func do_jump_boost(delta: float) -> void:
 	velocity.y -= JUMP_BOOST_FORCE * delta
+	
+@onready var jump_sfx: AudioStreamPlayer2D = $JumpSfx
 
 func on_jump(delta: float) -> void:
 	if is_on_floor() or coyote_jump_timer.time_left > 0:
+		jump_sfx.play()
 		jump_count = 1
 		velocity.y = -JUMP_VELOCITY
 		jump_boost_remaining_timer.start()
@@ -197,6 +203,7 @@ func on_jump(delta: float) -> void:
 
 func do_extra_jump(delta: float) -> void:
 	if jump_count < max_jumps:
+		jump_sfx.play()
 		velocity.y = -JUMP_VELOCITY
 		jump_count += 1
 		jump_boost_remaining_timer.start()

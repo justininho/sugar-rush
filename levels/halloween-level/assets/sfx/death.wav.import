@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://coaicsl1mgsa"
-path="res://.godot/imported/Laugh_spooky_4.wav-b8ee061ad76badb006e9321f9ecf4be0.sample"
+path="res://.godot/imported/death.wav-dd9548bb1fe4b86f67a04d1ca3622425.sample"
 
 [deps]
 
-source_file="res://levels/halloween-level/assets/Laugh_spooky_4.wav"
-dest_files=["res://.godot/imported/Laugh_spooky_4.wav-b8ee061ad76badb006e9321f9ecf4be0.sample"]
+source_file="res://levels/halloween-level/assets/sfx/death.wav"
+dest_files=["res://.godot/imported/death.wav-dd9548bb1fe4b86f67a04d1ca3622425.sample"]
 
 [params]
 

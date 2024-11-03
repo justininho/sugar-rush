@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://rcobs0u43wk5"
-path="res://.godot/imported/Gore_Wet_7.wav-933d9c276c6efad6f405ccd340d007d7.sample"
+path="res://.godot/imported/hit.wav-45f282b44770434e83ad40ca4b9c865e.sample"
 
 [deps]
 
-source_file="res://levels/halloween-level/assets/Gore_Wet_7.wav"
-dest_files=["res://.godot/imported/Gore_Wet_7.wav-933d9c276c6efad6f405ccd340d007d7.sample"]
+source_file="res://levels/halloween-level/assets/sfx/hit.wav"
+dest_files=["res://.godot/imported/hit.wav-45f282b44770434e83ad40ca4b9c865e.sample"]
 
 [params]
 

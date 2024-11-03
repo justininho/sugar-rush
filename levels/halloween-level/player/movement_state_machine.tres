@@ -10,7 +10,7 @@ animation = &"falling_right"
 blend_point_0/node = SubResource("AnimationNodeAnimation_v3cac")
 blend_point_0/pos = -1.0
 blend_point_1/node = SubResource("AnimationNodeAnimation_6gx2l")
-blend_point_1/pos = 0.998851
+blend_point_1/pos = 1.0
 snap = 1.0
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8tmp8"]
@@ -26,17 +26,17 @@ blend_point_1/node = SubResource("AnimationNodeAnimation_aaglb")
 blend_point_1/pos = 0.998851
 snap = 1.0
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1aqnp"]
-animation = &"jumping_left"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ybs41"]
 animation = &"jumping_right"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lhggd"]
+animation = &"jumping_left"
+
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_e6cjn"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_1aqnp")
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_ybs41")
-blend_point_1/pos = 1.0
+blend_point_0/node = SubResource("AnimationNodeAnimation_ybs41")
+blend_point_0/pos = 1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_lhggd")
+blend_point_1/pos = -1.0
 snap = 1.0
 blend_mode = 2
 
@@ -109,7 +109,8 @@ advance_mode = 2
 advance_expression = "is_walking()"
 
 [resource]
-states/Start/position = Vector2(211, 95)
+states/End/position = Vector2(1132, 94.75)
+states/Start/position = Vector2(169, 94.625)
 states/falling/node = SubResource("AnimationNodeBlendSpace1D_bsc1w")
 states/falling/position = Vector2(717, 457)
 states/idle/node = SubResource("AnimationNodeBlendSpace1D_u84ib")
@@ -119,3 +120,4 @@ states/jumping/position = Vector2(717, 95)
 states/walking/node = SubResource("AnimationNodeBlendSpace1D_au5h2")
 states/walking/position = Vector2(329, 457)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u3t8h"), "idle", "jumping", SubResource("AnimationNodeStateMachineTransition_6638h"), "jumping", "falling", SubResource("AnimationNodeStateMachineTransition_6xx2x"), "falling", "idle", SubResource("AnimationNodeStateMachineTransition_ehlic"), "jumping", "idle", SubResource("AnimationNodeStateMachineTransition_khs8m"), "falling", "jumping", SubResource("AnimationNodeStateMachineTransition_rckeu"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_02w7p"), "walking", "falling", SubResource("AnimationNodeStateMachineTransition_druvr"), "falling", "walking", SubResource("AnimationNodeStateMachineTransition_gmpou"), "walking", "jumping", SubResource("AnimationNodeStateMachineTransition_iqofh"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_ho40q"), "jumping", "walking", SubResource("AnimationNodeStateMachineTransition_4di5h")]
+graph_offset = Vector2(-12, 44)
