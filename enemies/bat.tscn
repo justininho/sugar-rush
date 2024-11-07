@@ -1,10 +1,39 @@
-[gd_scene load_steps=19 format=3 uid="uid://duj6uvd8n7i0h"]
+[gd_scene load_steps=31 format=3 uid="uid://duj6uvd8n7i0h"]
 
 [ext_resource type="Script" path="res://enemies/bat.gd" id="1_jowhx"]
 [ext_resource type="Texture2D" uid="uid://stvyjg6irawi" path="res://levels/halloween-level/assets/BatVampire_Attack.png" id="2_k7s60"]
 [ext_resource type="Texture2D" uid="uid://cy6ox8cqmfpfv" path="res://levels/halloween-level/assets/BatVampire_Flying.png" id="3_ir5rh"]
 [ext_resource type="Script" path="res://levels/halloween-level/player/label.gd" id="3_siaoc"]
+[ext_resource type="Texture2D" uid="uid://mjt7y46t2sdb" path="res://levels/halloween-level/assets/BatZombie_Attack.png" id="4_id0al"]
 [ext_resource type="AudioStream" uid="uid://x3f1kxhw1b20" path="res://levels/halloween-level/assets/sfx/bat_attack.wav" id="5_ilxdf"]
+[ext_resource type="Texture2D" uid="uid://ccwhfyjsmaghu" path="res://levels/halloween-level/assets/BatZombie_Flying.png" id="6_a7lo4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cie34"]
+radius = 46.0109
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdjfs"]
+atlas = ExtResource("4_id0al")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vygs5"]
+atlas = ExtResource("4_id0al")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k5a0"]
+atlas = ExtResource("4_id0al")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whiys"]
+atlas = ExtResource("4_id0al")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6uej"]
+atlas = ExtResource("4_id0al")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnr0f"]
+atlas = ExtResource("4_id0al")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23mph"]
 atlas = ExtResource("2_k7s60")
@@ -30,6 +59,22 @@ region = Rect2(128, 0, 32, 32)
 atlas = ExtResource("2_k7s60")
 region = Rect2(160, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0e1j"]
+atlas = ExtResource("6_a7lo4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_em31r"]
+atlas = ExtResource("6_a7lo4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3om0j"]
+atlas = ExtResource("6_a7lo4")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1bfa"]
+atlas = ExtResource("6_a7lo4")
+region = Rect2(96, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_h5fsb"]
 atlas = ExtResource("3_ir5rh")
 region = Rect2(0, 0, 32, 32)
@@ -50,6 +95,29 @@ region = Rect2(96, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_rdjfs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vygs5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k5a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_whiys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6uej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnr0f")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_23mph")
 }, {
 "duration": 1.0,
@@ -68,7 +136,24 @@ animations = [{
 "texture": SubResource("AtlasTexture_ixrj3")
 }],
 "loop": false,
-"name": &"attack",
+"name": &"attack_2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0e1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_em31r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3om0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1bfa")
+}],
+"loop": true,
+"name": &"fly",
 "speed": 5.0
 }, {
 "frames": [{
@@ -85,12 +170,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_lo2xf")
 }],
 "loop": true,
-"name": &"fly",
+"name": &"fly_2",
 "speed": 5.0
 }]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_cie34"]
-radius = 46.0109
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l0mvb"]
 radius = 3.0
@@ -110,15 +192,6 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 3.0
 one_shot = true
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, 2)
-sprite_frames = SubResource("SpriteFrames_0yspn")
-animation = &"attack"
-frame = 5
-frame_progress = 1.0
-metadata/_edit_group_ = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true
@@ -143,7 +216,6 @@ collision_layer = 16
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroZone"]
-visible = false
 shape = SubResource("CircleShape2D_cie34")
 debug_color = Color(0.971762, 0.0798851, 0.377913, 0.42)
 
@@ -151,17 +223,24 @@ debug_color = Color(0.971762, 0.0798851, 0.377913, 0.42)
 unique_name_in_owner = true
 one_shot = true
 
+[node name="AttackSfx" type="AudioStreamPlayer2D" parent="." groups=["enemy"]]
+stream = ExtResource("5_ilxdf")
+volume_db = -20.0
+bus = &"Enemy"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 2)
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_0yspn")
+animation = &"fly"
+metadata/_edit_group_ = true
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, 3)
+position = Vector2(0, 2)
 rotation = -1.57429
 shape = SubResource("CircleShape2D_l0mvb")
 metadata/_edit_group_ = true
-
-[node name="AttackSfx" type="AudioStreamPlayer2D" parent="." groups=["enemy"]]
-stream = ExtResource("5_ilxdf")
-volume_db = -25.0
-bus = &"Enemy"
 
 [connection signal="state_change" from="." to="DebugStateLabel" method="_on_bat_state_change"]
 [connection signal="timeout" from="AggroTimer" to="." method="_on_aggro_timer_timeout"]

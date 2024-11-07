@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var coyote_jump_timer: Timer = $CoyoteJumpTimer
 
 @onready var animation_tree: AnimationTree = %AnimationTree
+@onready var hit_sfx: AudioStreamPlayer2D = $HitSfx
 
 var jump_count := 0
 var max_jumps := 2
@@ -225,6 +226,7 @@ func check_hit() -> void:
 	if hit_box.has_overlapping_bodies() and invincibility_timer.is_stopped():
 		health -= 1
 		if health > 0:
+			hit_sfx.play()
 			invincibility_timer.start()
 			hit.emit(health)
 			animation_tree["parameters/hit_one_shot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
@@ -232,7 +234,7 @@ func check_hit() -> void:
 			velocity = Vector2.ZERO
 			dead.emit()
 			animation_tree["parameters/dead_or_alive/transition_request"] = "dead"
-
+			
 func set_animation_tree_blends(direction: int) -> void:
 	animation_tree["parameters/movement/idle/blend_position"] = direction
 	animation_tree["parameters/movement/jumping/blend_position"] = direction

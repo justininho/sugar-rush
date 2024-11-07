@@ -7,7 +7,7 @@ const candy_scene := preload("res://levels/halloween-level/interactable/candy.ts
 @onready var score_hud: CanvasLayer = %ScoreHUD
 @onready var dead_hud: CanvasLayer = $HUD/DeadHUD
 @onready var death_sound: AudioStreamPlayer2D = $DeathSfx
-@onready var take_candy_sfx: AudioStreamPlayer2D = $TakeCandySfx
+@onready var candy_sfx: AudioStreamPlayer2D = $CandySfx
 @onready var player: CharacterBody2D = %Player
 @onready var start_game_hud: CanvasLayer = $HUD/StartGameHUD
 @onready var music: AudioStreamPlayer2D = $Music
@@ -27,6 +27,9 @@ func _ready() -> void:
 	get_tree().call_group("enemy", "hide")
 	get_tree().create_timer(2.0).timeout
 	start_game_hud.show()
+	
+func _process(delta: float) -> void:
+	time_since_hit += delta
 	
 func start_game() -> void:
 	start_game_hud.hide()
@@ -49,17 +52,22 @@ func game_over() -> void:
 	game_over_hud.show()
 	game_timer.stop()
 	spawn_timer.stop()
+	
+	await get_tree().create_timer(3.0).timeout
 	player.queue_free()
 	get_tree().call_group("candy", "queue_free")
 	get_tree().call_group("enemy", "queue_free")
 	music.stop()
-	await get_tree().create_timer(3.0).timeout
 	get_tree().reload_current_scene()
 
 var candy_collected := 0
 func _on_candy_collected(points: int) -> void:
 	candy_collected += points
-	take_candy_sfx.play()
+	if points == 5:
+		candy_sfx.stream = preload("res://levels/halloween-level/assets/sfx/golden_candy.wav")
+	else:
+		candy_sfx.stream = preload("res://levels/halloween-level/assets/sfx/candy.wav")
+	candy_sfx.play()
 	update_score(candy_collected)
 	
 func update_score(score: int):
@@ -77,6 +85,7 @@ func spawn_candy() -> void:
 	 	# Connect the signal emitted by candy_instance to a function in this script
 		candy_instance.candy_collected.connect(_on_candy_collected)
 		candy_instance.position = local_position - offset
+		candy_instance.golden_bias = get_golden_bias()
 		add_child(candy_instance)
 
 func _on_spawn_timer_timeout() -> void:
@@ -85,6 +94,17 @@ func _on_spawn_timer_timeout() -> void:
 @onready var dead_label: Label = $HUD/GameOverHUD/DeadLabel
 @onready var retry_button: Button = $HUD/DeadHUD/RetryButton
 
+var time_since_hit := 0.0
+
+func get_golden_bias() -> bool:
+	# Calculate the bias based on time since hit
+	var bias = clamp(floor(time_since_hit / 30), 0, 3)  # Bias ranges from 1 to 4
+	print(bias)
+	return bias
+
+func _on_player_hit(health: int) -> void:
+	time_since_hit = 0.0
+	
 func _on_player_dead() -> void:
 	dead_label.show()
 	death_sound.play()
